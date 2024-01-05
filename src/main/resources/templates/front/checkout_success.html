@@ -1,0 +1,134 @@
+<!Doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Thanh Toán | Transporter</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/front/img/favicon.png}">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- CSS here -->
+    <link rel="stylesheet" th:href="@{/resources/front/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/fontawesome-all.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/odometer.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/aos.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/slick.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/default.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/responsive.css}">
+    <style>
+        .wishlist-area tbody .product-name h4 {
+            font-size : 16px;
+        }
+
+        .shop-cart-widget ul li {
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: #2b2b2b;
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .shop-cart-widget ul li > span {
+            width: 46%;
+        }
+
+        .shop-cart-widget ul .cart-total-amount {
+            margin-bottom: 0;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px dashed #cfcfcf;
+        }
+
+        .shop-cart-widget button {
+            border-radius: 4px;
+            margin-top: 35px;
+            width: 35%;
+            background: #ff6000;
+            min-height: 50px;
+            margin-left: -1px;
+        }
+
+        .title-product {
+            width: 70% !important;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            display: -webkit-box;
+            text-transform: capitalize;
+            font-weight: 600;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Scroll-top -->
+<button class="scroll-top scroll-to-target" data-target="html">
+    <i class="fas fa-angle-up"></i>
+</button>
+<!-- Scroll-top-end-->
+
+<div th:replace="~{fragments/front/header :: header}"></div>
+
+<!-- main-area -->
+<main>
+
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb-area breadcrumb-bg" data-background="/resources/front/img/bg/breadcrumb_bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content text-center">
+                        <h2 style="color: #ff6000">Thanh Toán Thành Công</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    Cảm ơn bạn đã đặt hàng trên trang web của chúng tôi!
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+
+</main>
+<!-- main-area-end -->
+
+<div th:replace="~{fragments/front/footer :: footer}"></div>
+
+<!-- JS here -->
+<script th:src="@{/resources/front/js/vendor/jquery-3.5.0.min.js}"></script>
+<script th:src="@{/resources/front/js/popper.min.js}"></script>
+<script th:src="@{/resources/front/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/front/js/isotope.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/resources/front/js/owl.carousel.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.odometer.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.countdown.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.appear.js}"></script>
+<script th:src="@{/resources/front/js/slick.min.js}"></script>
+<script th:src="@{/resources/front/js/ajax-form.js}"></script>
+<script th:src="@{/resources/front/js/wow.min.js}"></script>
+<script th:src="@{/resources/front/js/aos.js}"></script>
+<script th:src="@{/resources/front/js/plugins.js}"></script>
+<script th:src="@{/resources/front/js/main.js}"></script>
+</body>
+</html>

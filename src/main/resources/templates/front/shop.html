@@ -1,0 +1,325 @@
+<!Doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Cửa Hàng | Transporter</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/front/img/favicon.png}">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- CSS here -->
+    <link rel="stylesheet" th:href="@{/resources/front/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/fontawesome-all.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/odometer.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/aos.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/slick.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/default.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/responsive.css}">
+</head>
+
+<style>
+    .disabled {
+        pointer-events: none;
+        opacity: .65;
+    }
+</style>
+
+<body>
+
+<!-- Scroll-top -->
+<button class="scroll-top scroll-to-target" data-target="html">
+    <i class="fas fa-angle-up"></i>
+</button>
+<!-- Scroll-top-end-->
+
+<div th:replace="~{fragments/front/header :: header}"></div>
+
+<!-- main-area -->
+<main>
+
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb-area breadcrumb-bg" data-background="/resources/front/img/bg/breadcrumb_bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content text-center">
+                        <h2>Cửa Hàng</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">Trang Chủ</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Cửa Hàng</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+
+    <!-- shop-area -->
+    <div class="shop-area gray-bg pt-100 pb-100">
+        <div class="custom-container-two">
+            <div class="row justify-content-center">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8 order-2 order-lg-0">
+                    <aside class="shop-sidebar">
+                        <div class="widget shop-widget mb-30">
+                            <div class="shop-widget-title">
+                                <h6 class="title">Danh Mục</h6>
+                            </div>
+                            <div class="shop-cat-list">
+                                <ul>
+                                    <th:block th:each="item : ${categoryListDTO}">
+                                        <li><a th:href="@{'/shop/' + ${item.id}}" th:text="${item.title}"></a>
+                                            <span th:text="${item.amountProduct}"></span>
+                                        </li>
+                                    </th:block>
+                                </ul>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+
+                <div class="col-xl-9 col-lg-8">
+                    <div class="shop-top-meta mb-40">
+                        <p class="show-result">Danh Sách Sản Phẩm</p>
+<!--                        <div class="shop-meta-right">-->
+<!--                            <form action="#">-->
+<!--                                <select class="custom-select">-->
+<!--                                    <option selected="">Default Sorting</option>-->
+<!--                                    <option>Free Shipping</option>-->
+<!--                                    <option>Best Match</option>-->
+<!--                                    <option>Newest Item</option>-->
+<!--                                    <option>Size A - Z</option>-->
+<!--                                </select>-->
+<!--                            </form>-->
+<!--                        </div>-->
+                    </div>
+                    <div class="row">
+                        <th:block th:each="item : ${productListDTO}">
+                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-6">
+                                <div class="exclusive-item exclusive-item-three text-center mb-50">
+                                    <div class="exclusive-item-thumb">
+                                        <a th:href="@{'/product-detail/' + ${item.id}}">
+                                            <img th:src="@{${item.image}}" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="exclusive-item-content">
+                                        <h5><a th:href="@{'/product-detail/' + ${item.id}}" th:text="${item.title}"></a>
+                                        </h5>
+                                        <div class="exclusive--item--price">
+                                            <th:block th:unless="${item.discount == '0'}">
+                                                <del class="old-price" th:text="${item.price} + ' VNĐ'"></del>
+                                                <span class="new-price" th:text="${item.newPrice} + ' VNĐ'"></span>
+                                            </th:block>
+                                            <th:block th:if="${item.discount == '0'}">
+                                                <span class="new-price" th:text="${item.price} + ' VNĐ'"></span>
+                                            </th:block>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                    <div class="pagination-wrap">
+                        <th:block th:if="${totalPage > 1 AND search != null}">
+                            <ul th:with="pageURLPrefix = '/shop/' + ${categoryId} + '?search=' + ${search} + '&page=' ">
+                                <li class="prev" th:classappend="${currentPage > 1 ? '' : 'disabled'}">
+                                    <a th:href="@{${pageURLPrefix}} + ${currentPage - 1}"><i
+                                            class="fas fa-long-arrow-alt-left"></i> Prev</a>
+                                </li>
+
+                                <th:block th:if="${totalPage <= 4}">
+                                    <th:block th:each="index : ${#numbers.sequence(1, totalPage)}">
+                                        <li th:class="${currentPage == index ? 'active' : ''}">
+                                            <a th:href="@{${pageURLPrefix}} + ${index}" th:text="${index}"></a>
+                                        </li>
+                                    </th:block>
+                                </th:block>
+
+                                <th:block th:if="${totalPage > 4}">
+
+                                    <th:block th:if="${currentPage <= 2 || currentPage > totalPage - 2}">
+
+                                        <th:block th:each="index : ${#numbers.sequence(1, 2)}">
+                                            <li th:class="${currentPage == index ? 'active' : ''}">
+                                                <a th:href="@{${pageURLPrefix}} + ${index}" th:text="${index}"></a>
+                                            </li>
+                                        </th:block>
+
+                                        <th:block th:if="${currentPage <= 2}">
+                                            <li th:class="${currentPage == index ? 'active' : ''}">
+                                                <a th:href="@{${pageURLPrefix}} + '3'">...</a>
+                                            </li>
+                                        </th:block>
+
+                                        <th:block th:if="${currentPage >= totalPage - 1}">
+                                            <li th:class="${currentPage == index ? 'active' : ''}">
+                                                <a th:href="@{${pageURLPrefix}} + ${totalPage - 2}">...</a>
+                                            </li>
+                                        </th:block>
+
+                                        <th:block th:each="index : ${#numbers.sequence(totalPage - 1, totalPage)}">
+                                            <li th:class="${currentPage == index ? 'active' : ''}">
+                                                <a th:href="@{${pageURLPrefix}} + ${index}" th:text="${index}"></a>
+                                            </li>
+                                        </th:block>
+
+                                    </th:block>
+
+                                    <th:block th:if="${currentPage > 2 && currentPage < totalPage - 1}">
+
+                                        <li th:class="${currentPage == index ? 'active' : ''}">
+                                            <a th:href="@{${pageURLPrefix}} + ${currentPage - 2}">...</a>
+                                        </li>
+
+                                        <th:block
+                                                th:each="index : ${#numbers.sequence(currentPage - 1, currentPage + 1)}">
+                                            <li th:class="${currentPage == index ? 'active' : ''}">
+                                                <a th:href="@{${pageURLPrefix}} + ${index}" th:text="${index}"></a>
+                                            </li>
+                                        </th:block>
+
+                                        <li th:class="${currentPage == index ? 'active' : ''}">
+                                            <a th:href="@{${pageURLPrefix}} + ${currentPage + 2}">...</a>
+                                        </li>
+
+                                    </th:block>
+
+                                </th:block>
+
+                                <li class="next" th:classappend="${currentPage < totalPage ? '' : 'disabled'}">
+                                    <a th:href="@{${pageURLPrefix}} + ${currentPage + 1}">Next <i
+                                            class="fas fa-long-arrow-alt-right"></i></a>
+                                </li>
+                            </ul>
+                        </th:block>
+
+                        <th:block th:if="${totalPage > 1 AND search == null}">
+                            <ul th:with="pageURLPrefix = '/shop/' + ${categoryId} + '?page='">
+                                <li class="prev" th:classappend="${currentPage > 1 ? '' : 'disabled'}">
+                                    <a th:href="@{${pageURLPrefix}} + ${currentPage - 1}"><i
+                                            class="fas fa-long-arrow-alt-left"></i> Prev</a>
+                                </li>
+
+                                <th:block th:if="${totalPage <= 4}">
+                                    <th:block th:each="index : ${#numbers.sequence(1, totalPage)}">
+                                        <li th:class="${currentPage == index ? 'active' : ''}">
+                                            <a th:href="@{${pageURLPrefix}} + ${index}" th:text="${index}"></a>
+                                        </li>
+                                    </th:block>
+                                </th:block>
+
+                                <th:block th:if="${totalPage > 4}">
+
+                                    <th:block th:if="${currentPage <= 2 || currentPage > totalPage - 2}">
+
+                                        <th:block th:each="index : ${#numbers.sequence(1, 2)}">
+                                            <li th:class="${currentPage == index ? 'active' : ''}">
+                                                <a th:href="@{${pageURLPrefix}} + ${index}" th:text="${index}"></a>
+                                            </li>
+                                        </th:block>
+
+                                        <th:block th:if="${currentPage <= 2}">
+                                            <li th:class="${currentPage == index ? 'active' : ''}">
+                                                <a th:href="@{${pageURLPrefix}} + '3'">...</a>
+                                            </li>
+                                        </th:block>
+
+                                        <th:block th:if="${currentPage >= totalPage - 1}">
+                                            <li th:class="${currentPage == index ? 'active' : ''}">
+                                                <a th:href="@{${pageURLPrefix}} + ${totalPage - 2}">...</a>
+                                            </li>
+                                        </th:block>
+
+                                        <th:block th:each="index : ${#numbers.sequence(totalPage - 1, totalPage)}">
+                                            <li th:class="${currentPage == index ? 'active' : ''}">
+                                                <a th:href="@{${pageURLPrefix}} + ${index}" th:text="${index}"></a>
+                                            </li>
+                                        </th:block>
+
+                                    </th:block>
+
+                                    <th:block th:if="${currentPage > 2 && currentPage < totalPage - 1}">
+
+                                        <li th:class="${currentPage == index ? 'active' : ''}">
+                                            <a th:href="@{${pageURLPrefix}} + ${currentPage - 2}">...</a>
+                                        </li>
+
+                                        <th:block
+                                                th:each="index : ${#numbers.sequence(currentPage - 1, currentPage + 1)}">
+                                            <li th:class="${currentPage == index ? 'active' : ''}">
+                                                <a th:href="@{${pageURLPrefix}} + ${index}" th:text="${index}"></a>
+                                            </li>
+                                        </th:block>
+
+                                        <li th:class="${currentPage == index ? 'active' : ''}">
+                                            <a th:href="@{${pageURLPrefix}} + ${currentPage + 2}">...</a>
+                                        </li>
+
+                                    </th:block>
+
+                                </th:block>
+
+                                <li class="next" th:classappend="${currentPage < totalPage ? '' : 'disabled'}">
+                                    <a th:href="@{${pageURLPrefix}} + ${currentPage + 1}">Next <i
+                                            class="fas fa-long-arrow-alt-right"></i></a>
+                                </li>
+                            </ul>
+                        </th:block>
+
+                        <th:block th:if="${totalPage == 1}">
+                            <ul>
+                                <li class="prev disabled">
+                                    <a href="#"><i class="fas fa-long-arrow-alt-left"></i> Prev</a>
+                                </li>
+
+                                <li class="active" >
+                                    <a th:text="'1'"></a>
+                                </li>
+
+                                <li class="next disabled">
+                                    <a href="#">Next <i class="fas fa-long-arrow-alt-right"></i></a>
+                                </li>
+                            </ul>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- shop-area-end -->
+
+</main>
+<!-- main-area-end -->
+
+<div th:replace="~{fragments/front/footer :: footer}"></div>
+
+<!-- JS here -->
+<script th:src="@{/resources/front/js/vendor/jquery-3.5.0.min.js}"></script>
+<script th:src="@{/resources/front/js/popper.min.js}"></script>
+<script th:src="@{/resources/front/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/front/js/isotope.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/resources/front/js/owl.carousel.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.odometer.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.countdown.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.appear.js}"></script>
+<script th:src="@{/resources/front/js/slick.min.js}"></script>
+<script th:src="@{/resources/front/js/ajax-form.js}"></script>
+<script th:src="@{/resources/front/js/wow.min.js}"></script>
+<script th:src="@{/resources/front/js/aos.js}"></script>
+<script th:src="@{/resources/front/js/plugins.js}"></script>
+<script th:src="@{/resources/front/js/main.js}"></script>
+</body>
+</html>

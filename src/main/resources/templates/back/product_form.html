@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sản Phẩm | Transport</title>
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/front/img/favicon.png}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/bootstrap-icon/bootstrap-icons.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/jquery.mCustomScrollbar.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/sweetalert.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/toastify.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/jquery.dataTables.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/responsive.bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/style.css}">
+</head>
+<body>
+<div class="container-fluid">
+
+    <button class="sidebar-collapse-mini d-xl-none d-block"><i class="bi bi-list"></i></button>
+
+    <div th:replace="~{fragments/back/sidebar :: sidebar}"></div>
+
+    <div class="main-content">
+        <div class="breadcrumb-wrap mb-20">
+            <div class="d-md-flex d-block justify-content-between align-items-center">
+                <div class="left">
+                    <h1>Chi Tiết Sản Phẩm</h1>
+                </div>
+                <div class="right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/back/dashboard">Trang Chủ</a></li>
+                            <li class="breadcrumb-item"><i class="bi bi-caret-right"></i></li>
+                            <li class="breadcrumb-item active" aria-current="page">Sản Phẩm</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="row g-10">
+            <div class="col-xl-12 col-lg-12 mb-20">
+                <div class="alert"
+                     th:if="${messageDTO != null && messageDTO.key == 'save'}"
+                     th:classappend="${messageDTO.status == 'success' ? ' alert-success alert-dismissible' : ' alert-warning alert-dismissible'}">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <h5><i class="icon fas fa-exclamation-triangle"></i> Thông Báo</h5>
+                    <span th:text="${messageDTO.message}"></span>
+                </div>
+            </div>
+            <div class="col-xl-12 col-lg-12">
+                <div class="panel mb-10">
+                    <div class="panel-body">
+                        <form method="post"
+                              enctype="multipart/form-data"
+                              th:action="@{/back/product/form}"
+                              th:object="${productDTO}"
+                              class="row g-3">
+                            <div class="col-md-6">
+                                <div class="col-md-12 mb-4">
+                                    <label for="validationId" class="form-label">Mã</label>
+                                    <input type="text" class="form-control" id="validationId" name="title"
+                                           th:field="*{id}" disabled>
+                                </div>
+                                <div class="col-md-12 mb-4">
+                                    <label for="validationCustom01" class="form-label">Tên Sản Phẩm</label>
+                                    <input type="text" class="form-control" id="validationCustom01" name="title"
+                                           placeholder="Nhập tên Sản Phẩm..."
+                                           th:classappend="${#fields.hasErrors('title')} ? 'is-invalid' : ''"
+                                           th:field="*{title}">
+                                    <p class="text-danger mt-2"
+                                       th:if="${#fields.hasErrors('title')}"
+                                       th:errors="*{title}"></p>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <label for="inputPrice" class="form-label">Giá Tiền (VNĐ)
+                                            <code>(*)</code></label>
+                                        <input
+                                                type="text"
+                                                name="price"
+                                                class="form-control"
+                                                th:classappend="${#fields.hasErrors('price')} ? 'is-invalid' : ''"
+                                                id="inputPrice"
+                                                placeholder="Nhập Giá Tiền..."
+                                                th:field="*{price}"
+                                        />
+                                        <p
+                                                class="text-danger mt-2"
+                                                th:if="${#fields.hasErrors('price')}"
+                                                th:errors="*{price}"
+                                        ></p>
+                                    </div>
+
+                                    <div class="col-md-6 mb-4">
+                                        <label for="validationCustom03" class="form-label">Giảm Giá</label>
+                                        <input type="text" class="form-control" id="validationCustom03" name="discount"
+                                               placeholder="Nhập Giảm Giá..."
+                                               th:classappend="${#fields.hasErrors('discount')} ? 'is-invalid' : ''"
+                                               th:field="*{discount}">
+                                        <p class="text-danger mt-2"
+                                           th:if="${#fields.hasErrors('discount')}"
+                                           th:errors="*{discount}"></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-4">
+                                    <label>Hình Ảnh</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" name="imageMul" accept="image/*">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 mt-2" th:if="${productDTO.image != null }">
+                                        <img th:src="@{${productDTO.image}}" width="350px"/>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="row">
+                                    <div class="col-md-8 mb-4">
+                                        <label for="inputCategory" class="form-label">Loại Danh Mục
+                                            <code>(*)</code></label>
+                                        <select
+                                                class="form-control form-select"
+                                                id="inputCategory"
+                                                th:classappend="${#fields.hasErrors('categoryId')} ? 'is-invalid' : ''"
+                                                th:field="*{categoryId}"
+                                        >
+                                            <option th:value="0">Chọn Loại Danh Mục...</option>
+                                            <option
+                                                    th:each="item : ${categoryList}"
+                                                    th:value="${item.id}"
+                                                    th:text="${item.title}"
+                                            ></option>
+                                        </select>
+                                        <p
+                                                class="text-danger mt-2"
+                                                th:if="${#fields.hasErrors('categoryId')}"
+                                                th:errors="*{categoryId}"
+                                        ></p>
+                                    </div>
+
+                                    <div class="col-md-4 mb-4">
+                                        <label for="formSelect" class="form-label">Trạng Thái</label>
+                                        <select class="form-select form-control" id="formSelect" th:field="*{status}">
+                                            <option value="true">Kích Hoạt</option>
+                                            <option value="false">Tạm Ngưng</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-4">
+                                    <label for="inputDetail" class="form-label">Mô Tả Ngắn <code>(*)</code></label>
+                                    <input
+                                            type="text"
+                                            name="price"
+                                            class="form-control"
+                                            th:classappend="${#fields.hasErrors('detail')} ? 'is-invalid' : ''"
+                                            id="inputDetail"
+                                            placeholder="Nhập Mô Tả Ngắn..."
+                                            th:field="*{detail}"
+                                    />
+                                    <p
+                                            class="text-danger mt-2"
+                                            th:if="${#fields.hasErrors('detail')}"
+                                            th:errors="*{detail}"
+                                    ></p>
+                                </div>
+                                <div class="col-md-12 mb-4">
+                                    <label for="inputDescription" class="form-label">Mô Tả<code>(*)</code></label>
+                                    <textarea class="form-control"
+                                              id="inputDescription"
+                                              name="description" style="height: 188px;"
+                                              th:classappend="${#fields.hasErrors('description')} ? 'is-invalid' : ''"
+                                              th:field="*{description}" rows="5">
+                                                    </textarea>
+                                    <p
+                                            class="text-danger mt-2"
+                                            th:if="${#fields.hasErrors('description')}"
+                                            th:errors="*{description}"
+                                    ></p>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <input type="hidden" th:field="*{id}" name="id">
+                                <input type="hidden" th:field="*{image}" name="image">
+                                <button class="btn btn-primary" type="submit">Lưu Dữ Liệu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/resources/back/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/resources/back/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+<script th:src="@{/resources/back/js/apexcharts.js}"></script>
+<script th:src="@{/resources/back/js/sweetalert.min.js}"></script>
+<script th:src="@{/resources/back/js/toastify-js.js}"></script>
+<script th:src="@{/resources/back/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/resources/back/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/resources/back/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/resources/back/js/main.js}"></script>
+<script th:src="@{/resources/back/js/datatables-init.js}"></script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo | Transport</title>
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/front/img/favicon.png}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/bootstrap-icon/bootstrap-icons.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/jquery.mCustomScrollbar.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/style.css}">
+</head>
+<body>
+<div class="container-fluid">
+    <button class="sidebar-collapse-mini d-xl-none d-block"><i class="bi bi-list"></i></button>
+    <div th:replace="~{fragments/back/sidebar :: sidebar}"></div>
+    <div class="main-content">
+        <div class="top-boxes mb-10">
+
+            <div class="row g-10">
+                <div class="col-xl-3 col-lg-3 col-sm-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="part-icon bg-primary">
+                                <i class="bi bi-blockquote-right"></i>
+                            </div>
+                            <div class="part-txt">
+                                <p><span>Đơn Hàng</span></p>
+                                <p th:text="${reportDTO.totalOrder}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-sm-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="part-icon bg-danger">
+                                <i class="bi bi-bookmark"></i>
+                            </div>
+                            <div class="part-txt">
+                                <p><span>Chờ Duyệt</span></p>
+                                <p th:text="${reportDTO.totalPending}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-sm-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="part-icon bg-success">
+                                <i class="bi bi-send"></i>
+                            </div>
+                            <div class="part-txt">
+                                <p><span>Đang Vận Chuyển</span></p>
+                                <p th:text="${reportDTO.totalShipping}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-sm-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="part-icon bg-info">
+                                <i class="bi bi-bookmark-check"></i>
+                            </div>
+                            <div class="part-txt">
+                                <p><span>Hoàn Thành</span></p>
+                            <p th:text="${reportDTO.totalCompleted}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-12 col-lg-12">
+                <div class="panel mb-10">
+                    <div class="panel-heading">
+                        <span>Danh Sách Đơn Hàng</span>
+                    </div>
+                    <div class="panel-body">
+
+                        <form class="row g-3" method="get"
+                              th:action="@{/back/report/search}"
+                              th:object="${reportDTO}">
+<!--                            <div class="card-body" style="padding: 0;">-->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="startDate">Từ Ngày</label>
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input type="date" id="startDate"
+                                                       class="form-control datetimepicker-input"
+                                                       data-target="#reservationdate" th:field="*{startDate}"
+                                                       required/>
+                                            </div>
+                                            <p class="text-danger" th:if="${#fields.hasErrors('startDate')}"
+                                               th:errors="*{startDate}"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="endDate">Đến Ngày</label>
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input type="date" id="endDate"
+                                                       class="form-control datetimepicker-input"
+                                                       data-target="#reservationdate" th:field="*{endDate}"
+                                                       required/>
+                                            </div>
+                                            <p class="text-danger" th:if="${#fields.hasErrors('endDate')}"
+                                               th:errors="*{endDate}"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="search"></label>
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <button type="submit" class="btn btn-primary" id="search"
+                                                        style="margin-left: 15px">Tìm Kiếm
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+<!--                            </div>-->
+                        </form>
+
+                        <div id="myTable_wrapper" class="dataTables_wrapper">
+                            <div class="dataTables_length" id="myTable_length">
+                                <label>Show <select name="myTable_length" aria-controls="myTable"
+                                                    class="form-select form-control">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select> entries</label>
+                            </div>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Mã</th>
+                                    <th scope="col">Khách Hàng</th>
+                                    <th scope="col">Ngày Đặt</th>
+                                    <th scope="col">Tổng Đơn</th>
+                                    <th scope="col">Trạng Thái</th>
+                                    <th scope="col">Tùy Chọn</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr th:each="item : ${orderDTOList}">
+                                    <td th:text="${item.id}"></td>
+                                    <td><b th:text="${item.accountDTO.fullName}"></b></td>
+                                    <td><b th:text="${item.orderDate}"></b></td>
+                                    <td><b th:text="${item.totalAmount}"></b></td>
+                                    <td th:switch="${item.progress}" class="text-center">
+                                        <span class="badge bg-danger" th:case="'CANCELED'">Đã Hủy</span>
+                                        <span class="badge bg-warning" th:case="'PENDING'">Chờ Duyệt</span>
+                                        <span class="badge bg-info" th:case="'APPROVED'">Đã Duyệt</span>
+                                        <span class="badge" style="background-color: #fd7e14" th:case="'SHIPPING'">Đang Vận Chuyển</span>
+                                        <span class="badge bg-success" th:case="'COMPLETED'">Hoàn Thành</span>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm"
+                                           th:href="@{'/back/order/form/' + ${item.id} }">
+                                            Chi Tiết
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="card-footer clearfix">
+                        <a href="/back/order" class="btn btn-sm btn-secondary float-right">Xem Tất Cả</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/resources/back/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/resources/back/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+<script th:src="@{/resources/back/js/apexcharts.js}"></script>
+<script th:src="@{/resources/back/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/resources/back/js/main.js}"></script>
+<script th:src="@{/resources/back/js/chart-init.js}"></script>
+</body>
+</html>

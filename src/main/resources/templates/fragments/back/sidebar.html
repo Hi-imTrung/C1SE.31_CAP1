@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="fixed-sidebar sidebar-mini" th:fragment="sidebar">
+    <div class="logo">
+        <button class="sidebar-collapse"><i class="bi bi-list"></i></button>
+        <a href="/back/dashboard"><img th:src="@{/resources/front/img/logo/logo_black.png}" alt="LOGO"></a>
+    </div>
+    <!-- sidebar menu -->
+    <div class="menu">
+        <div class="custom-scroll">
+            <div class="sidebar-menu mt-3">
+                <ul th:if="${userLogin.role == 'ADMIN'}">
+                    <li class="sidebar-title"><span>Chức Năng</span></li>
+                    <li class="sidebar-item">
+                        <a href="/back/dashboard" class="sidebar-link"
+                           th:classappend="${requestURI.contains('/back/dashboard') ? 'active' : ''}">
+                            <i class="bi bi-house-door-fill"></i> <span>Tổng Quan</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/back/account" class="sidebar-link"
+                           th:classappend="${requestURI.contains('/back/account') ? 'active' : ''}">
+                            <i class="fa fa-users"></i> <span>Tài Khoản</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/back/category" class="sidebar-link"
+                           th:classappend="${requestURI.contains('/back/category') ? 'active' : ''}">
+                            <i class="bi bi-grid-fill"></i> <span>Danh Mục</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/back/product" class="sidebar-link"
+                           th:classappend="${requestURI.contains('/back/product') ? 'active' : ''}">
+                            <i class="bi bi-boxes"></i> <span>Sản Phẩm</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/back/order" class="sidebar-link"
+                           th:classappend="${requestURI.contains('/back/order') ? 'active' : ''}">
+                            <i class="bi bi-cart-check-fill"></i> <span>Đơn Hàng</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/back/warehouse" class="sidebar-link"
+                           th:classappend="${requestURI.contains('/back/warehouse') ? 'active' : ''}">
+                            <i class="bi bi-house-door-fill"></i> <span>Kho Hàng</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/back/shipping" class="sidebar-link"
+                           th:classappend="${requestURI.contains('/back/shipping') ? 'active' : ''}">
+                            <i class="fa fa-truck"></i> <span>Giao Hàng</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="/back/report" class="sidebar-link"
+                           th:classappend="${requestURI.contains('/back/report') ? 'active' : ''}">
+                            <i class="fa fa-book"></i><span>Báo Cáo</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-title"><span>Hệ Thống</span></li>
+
+                    <li class="sidebar-item">
+                        <a href="/change-password" class="sidebar-link">
+                            <i class="fa fa-lock"></i> <span>Thay Đổi Mật Khẩu</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/logout" class="sidebar-link" style="height: 70px">
+                            <i class="fa fa-power-off"></i> <span>Đăng Xuất</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul th:unless="${userLogin.role == 'ADMIN'}">
+                    <li class="sidebar-title"><span>Chức Năng</span></li>
+                    <li class="sidebar-item">
+                        <a href="/back/shipping" class="sidebar-link"
+                           th:classappend="${requestURI.contains('/back/shipping') ? 'active' : ''}">
+                            <i class="fa fa-truck"></i> <span>Giao Hàng</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-title"><span>Hệ Thống</span></li>
+
+                    <li class="sidebar-item">
+                        <a href="/change-password" class="sidebar-link">
+                            <i class="fa fa-lock"></i> <span>Thay Đổi Mật Khẩu</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/logout" class="sidebar-link" style="height: 70px">
+                            <i class="fa fa-power-off"></i> <span>Đăng Xuất</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- sidebar menu -->
+</div>
+</body>
+</html>

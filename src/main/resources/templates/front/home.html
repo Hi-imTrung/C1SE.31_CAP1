@@ -1,0 +1,220 @@
+<!Doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Trang Chủ | Transporter</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/front/img/favicon.png}">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- CSS here -->
+    <link rel="stylesheet" th:href="@{/resources/front/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/fontawesome-all.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/odometer.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/aos.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/slick.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/default.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/responsive.css}">
+</head>
+<body>
+
+<!-- Scroll-top -->
+<button class="scroll-top scroll-to-target" data-target="html">
+    <i class="fas fa-angle-up"></i>
+</button>
+<!-- Scroll-top-end-->
+
+<div th:replace="~{fragments/front/header :: header}"></div>
+
+<!-- main-area -->
+<main>
+
+    <!-- slider-area -->
+    <section class="second-slider-area" data-background="img/slider/home.jpg">
+        <div class="custom-container-two">
+            <div class="row justify-content-end">
+                <div class="col-xl-12">
+                    <div class="slider-active">
+                        <div class="single-slider slider-bg" data-background="/resources\static\front\img\slider\s_slider_bg01.jpg/">
+                            <div class="slider-content">
+                                <h5 data-animation="fadeInUp" data-delay=".3s">top deal !</h5>
+                                <h2 data-animation="fadeInUp" data-delay=".6s">Smart cream</h2>
+                                <p data-animation="fadeInUp" data-delay=".9s">Get up to <span>50%</span> off Today Only
+                                </p>
+                                <a href="shop-left-sidebar.html" class="btn yellow-btn" data-animation="fadeInUp"
+                                   data-delay="1s">Shop Now</a>
+                            </div>
+                        </div>
+                        <div class="single-slider slider-bg" data-background="/resources/front/img/slider/s_slider_bg02.jpg">
+                            <div class="slider-content">
+                                <h5 data-animation="fadeInUp" data-delay=".3s">top deal !</h5>
+                                <h2 data-animation="fadeInUp" data-delay=".6s">Top headphone</h2>
+                                <p data-animation="fadeInUp" data-delay=".9s">Get up to <span>50%</span> off Today Only
+                                </p>
+                                <a href="shop-left-sidebar.html" class="btn yellow-btn" data-animation="fadeInUp"
+                                   data-delay="1s">Shop Now</a>
+                            </div>
+                        </div>
+                        <div class="single-slider slider-bg" data-background="/resources/front/img/slider/s_slider_bg03.jpg">
+                            <div class="slider-content">
+                                <h5 data-animation="fadeInUp" data-delay=".3s">top deal !</h5>
+                                <h2 data-animation="fadeInUp" data-delay=".6s">Smart Watch</h2>
+                                <p data-animation="fadeInUp" data-delay=".9s">Get up to <span>50%</span> off Today Only
+                                </p>
+                                <a href="shop-left-sidebar.html" class="btn yellow-btn" data-animation="fadeInUp"
+                                   data-delay="1s">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- slider-area-end -->
+
+    <!-- top-cat-banner -->
+    <div class="top-cat-banner-area">
+        <div class="custom-container-two">
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="top-cat-banner-item mt-30">
+                        <a href="shop-left-sidebar.html"><img th:src="@{/resources/front/img/images/logo1.jpg}" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="top-cat-banner-item mt-30">
+                        <a href="shop-left-sidebar.html"><img th:src="@{/resources/front/img/images/top_cat_banner02.jpg}" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="top-cat-banner-item mt-30">
+                        <a href="shop-left-sidebar.html"><img th:src="@{/resources/front/img/images/top_cat_banner03.jpg}" alt=""></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- top-cat-banner-end -->
+
+    <!-- exclusive-collection-area -->
+    <section class="exclusive-collection pt-100 pb-60">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section-title text-center mb-60">
+                        <span class="sub-title">=====</span>
+                        <h2 class="title">Danh Sách Sản Phẩm</h2>
+                    </div>
+                </div>
+            </div>
+<!--            <div class="row justify-content-center">-->
+<!--                <div class="col-xl-6 col-lg-8">-->
+<!--                    <div class="product-menu mb-60">-->
+<!--                        <button class="active" data-filter="*">Best Sellers</button>-->
+<!--                        <button class="" data-filter=".cat-one">Featured</button>-->
+<!--                        <button class="" data-filter=".cat-two">Hot Sell</button>-->
+<!--                        <button class="" data-filter=".cat-three">Trend</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="row exclusive-active">
+                <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer" th:each="item : ${productListDTO}">
+                    <div class="exclusive-item exclusive-item-two mb-40">
+                        <div class="exclusive-item-thumb">
+                            <a th:href="@{'/product-detail/' + ${item.id}}">
+                                <img th:src="@{${item.image}}" alt="">
+                                <img class="overlay-product-thumb" th:src="@{${item.image}}" alt="">
+                            </a>
+                            <span class="sd-meta">New!</span>
+                            <a th:href="@{'/cart/add-to-cart/' + ${item.id}}" class="to-cart">Thêm Giỏ Hàng <i class="fas fa-cart-plus"></i></a>
+                        </div>
+                        <div class="exclusive-item-content">
+                            <div class="exclusive--content--top">
+                                <div class="tag">
+                                    <a th:href="@{'/product-detail/' + ${item.id}}"></a>
+                                </div>
+                                <th:block th:unless="${item.discount == '0'}">
+                                    <del class="old-price"
+                                         style="position: absolute; bottom: 30px; right: 25px;"
+                                         th:text="${item.price} + ' VNĐ'"></del>
+                                </th:block>
+                            </div>
+                            <div class="exclusive--content--bottom flex-column">
+                                <h5 style="width: 100%"><a th:href="@{'/product-detail/' + ${item.id}}" th:text="${item.title}"></a></h5>
+                                <span class="mt-2" th:text="${item.newPrice} + ' VNĐ'"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- exclusive-collection-area-end -->
+
+    <!-- best-cat-area -->
+    <section class="best-cat-area">
+        <div class="container">
+            <div class="best-cat-border pt-100 pb-45">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="section-title text-center mb-60">
+                            <span class="sub-title">=====</span>
+                            <h2 class="title">Danh Mục Sản Phẩm</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="best-cat-list">
+                            <div class="best-cat-item" th:each="item : ${categoryListDTO}">
+                                <div class="best-cat-thumb">
+                                    <a th:href="@{'/shop/' + ${item.id}}">
+                                        <img th:src="@{/resources/front/img/product/b_cat_product01.png}" alt="">
+                                    </a>
+                                </div>
+                                <div class="best-cat-content">
+                                    <h5><a th:href="@{'/shop/' + ${item.id}}" th:text="${item.title}"></a></h5>
+                                    <span th:text="${item.amountProduct}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- best-cat-area-end -->
+
+</main>
+<!-- main-area-end -->
+
+<div th:replace="~{fragments/front/footer :: footer}"></div>
+
+<!-- JS here -->
+<script th:src="@{/resources/front/js/vendor/jquery-3.5.0.min.js}"></script>
+<script th:src="@{/resources/front/js/popper.min.js}"></script>
+<script th:src="@{/resources/front/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/front/js/isotope.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/resources/front/js/owl.carousel.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.odometer.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.countdown.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.appear.js}"></script>
+<script th:src="@{/resources/front/js/slick.min.js}"></script>
+<script th:src="@{/resources/front/js/ajax-form.js}"></script>
+<script th:src="@{/resources/front/js/wow.min.js}"></script>
+<script th:src="@{/resources/front/js/aos.js}"></script>
+<script th:src="@{/resources/front/js/plugins.js}"></script>
+<script th:src="@{/resources/front/js/main.js}"></script>
+</body>
+</html>

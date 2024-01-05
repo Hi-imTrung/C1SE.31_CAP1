@@ -1,0 +1,240 @@
+<!Doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Giỏ Hàng | Transporter</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/front/img/favicon.png}">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- CSS here -->
+    <link rel="stylesheet" th:href="@{/resources/front/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/fontawesome-all.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/odometer.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/aos.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/slick.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/default.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/responsive.css}">
+
+    <style>
+        .wishlist-area tbody .product-name h4 {
+            font-size : 16px;
+        }
+
+        .shop-cart-widget ul li {
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: #2b2b2b;
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .shop-cart-widget ul li > span {
+            width: 46%;
+        }
+
+        .shop-cart-widget ul .cart-total-amount {
+            margin-bottom: 0;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px dashed #cfcfcf;
+        }
+
+        .shop-cart-widget a {
+            border-radius: 4px;
+            margin-top: 35px;
+            width: 100%;
+            background: #ff6000;
+            min-height: 50px;
+            margin-left: -1px;
+        }
+        .wishlist-area .carts-plus {
+            width: 80px;
+            position: relative;
+            margin-right: 0;
+        }
+        .wishlist-area .carts-plus-minus input {
+            width: 100%;
+            padding: 0px 20px;
+            text-align: center;
+            font-size: 14px;
+            border-radius: 0;
+            border: none;
+            color: #464545;
+        }
+        .qtybutton {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0px;
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+            font-weight: normal;
+            width: 35px;
+            text-align: center;
+            height: 50px;
+            line-height: 50px;
+            z-index: 2;
+        }
+        .wishlist-area .qtybutton {
+            width: auto;
+            color: #9e9e9e;
+            height: auto;
+            line-height: normal;
+        }
+        .inc.qtybutton {
+            right: 0px;
+            left: auto;
+        }
+        .dec.qtybutton {
+            font-size: 28px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Scroll-top -->
+<button class="scroll-top scroll-to-target" data-target="html">
+    <i class="fas fa-angle-up"></i>
+</button>
+<!-- Scroll-top-end-->
+
+<div th:replace="~{fragments/front/header :: header}"></div>
+
+<!-- main-area -->
+<main>
+
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb-area breadcrumb-bg" data-background="/resources/front/img/bg/breadcrumb_bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content text-center">
+                        <h2>Giỏ Hàng</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">Trang Chủ</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Giỏ Hàng</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+
+    <!-- shop-cart-area -->
+    <section class="shop-cart-area wishlist-area pt-100 pb-100">
+        <div class="container">
+            <div class="row justify-content-center"
+                 th:if="${cartDTO.cartItemDTOList != null AND !cartDTO.cartItemDTOList.isEmpty()}">
+                <div class="col-lg-8">
+                    <div class="table-responsive-xl">
+                        <table class="table mb-0">
+                            <thead>
+                            <tr>
+                                <th class="product-thumbnail"></th>
+                                <th class="product-name" style="width: 250px">Sản Phẩm</th>
+                                <th class="product-price">Đơn Giá</th>
+                                <th class="product-quantity">Số Lượng</th>
+                                <th class="product-subtotal">Số Tiền</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${cartDTO.cartItemDTOList}">
+                                <td class="product-thumbnail d-flex align-items-center" style="    padding: 25px 5px;">
+                                    <a th:href="@{'/cart/remove-to-cart/' + ${item.productDTO.id}}"
+                                       class="wishlist-remove mr-2">
+                                        <i class="flaticon-cancel-1"></i>
+                                    </a>
+                                    <a th:href="@{'/product-detail/' + ${item.productDTO.id}}"><img style="width: 90px;"
+                                                                                                    th:src="@{${item.productDTO.image}}"
+                                                                                                    alt=""></a>
+                                </td>
+                                <td class="product-name">
+                                    <h4><a th:href="@{'/product-detail/' + ${item.productDTO.id}}"
+                                           th:text="${item.productDTO.title}"></a></h4>
+                                    <p th:text="${item.productDTO.detail}"></p>
+                                </td>
+                                <th:block th:unless="${item.productDTO.discount == '0'}">
+                                    <td class="product-price" th:text="${item.productDTO.newPrice + ' VNĐ'}"></td>
+                                </th:block>
+                                <th:block th:if="${item.productDTO.discount == '0'}">
+                                    <td class="product-price" th:text="${item.productDTO.price + ' VNĐ'}"></td>
+                                </th:block>
+                                <td class="product-quantity">
+                                    <div class="carts-plus">
+                                        <div class="carts-plus-minus">
+                                            <input type="text" name="quantity" th:value="${item.quantity}">
+                                            <a th:href="@{'/cart/desc-to-cart/' +${item.productDTO.id}}" class="dec qtybutton">-</a>
+                                            <a th:href="@{'/cart/add-to-cart/' +${item.productDTO.id}}" class="inc qtybutton">+</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="product-subtotal"><span th:text="${item.totalPrice + ' VNĐ'}"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-8">
+                    <aside class="shop-cart-sidebar">
+                        <div class="shop-cart-widget">
+                            <h6 class="title">Tổng Giỏ Hàng</h6>
+                            <ul>
+                                <li><span>Thành Tiền</span>
+                                    <span class="amount" style="font-weight: 600"
+                                          th:text="${cartDTO.totalPrice + ' VNĐ'}"></span>
+                                </li>
+                            </ul>
+                            <a href="/checkout" class="btn">Đặt hàng</a>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+            <div class="row justify-content-center" th:if="${cartDTO.cartItemDTOList.isEmpty()}">
+                <div class="col-lg-12 ">
+                    <h3 class="text-danger text-center">Giỏ Hàng không có sản phẩm</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- shop-cart-area-end -->
+
+</main>
+<!-- main-area-end -->
+
+<div th:replace="~{fragments/front/footer :: footer}"></div>
+
+<!-- JS here -->
+<script th:src="@{/resources/front/js/vendor/jquery-3.5.0.min.js}"></script>
+<script th:src="@{/resources/front/js/popper.min.js}"></script>
+<script th:src="@{/resources/front/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/front/js/isotope.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/resources/front/js/owl.carousel.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.odometer.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.countdown.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.appear.js}"></script>
+<script th:src="@{/resources/front/js/slick.min.js}"></script>
+<script th:src="@{/resources/front/js/ajax-form.js}"></script>
+<script th:src="@{/resources/front/js/wow.min.js}"></script>
+<script th:src="@{/resources/front/js/aos.js}"></script>
+<script th:src="@{/resources/front/js/plugins.js}"></script>
+<script th:src="@{/resources/front/js/main.js}"></script>
+</body>
+</html>

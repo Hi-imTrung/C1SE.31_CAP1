@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đơn Hàng | Transport</title>
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/front/img/favicon.png}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/bootstrap-icon/bootstrap-icons.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/jquery.mCustomScrollbar.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/sweetalert.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/toastify.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/jquery.dataTables.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/responsive.bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/back/css/style.css}">
+</head>
+<body>
+<div class="container-fluid">
+
+    <button class="sidebar-collapse-mini d-xl-none d-block"><i class="bi bi-list"></i></button>
+
+    <div th:replace="~{fragments/back/sidebar :: sidebar}"></div>
+
+    <div class="main-content">
+        <div class="breadcrumb-wrap mb-20">
+            <div class="d-md-flex d-block justify-content-between align-items-center">
+                <div class="left">
+                    <h1>Danh Sách Đơn Hàng</h1>
+                </div>
+                <div class="right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/back/dashboard">Trang Chủ</a></li>
+                            <li class="breadcrumb-item"><i class="bi bi-caret-right"></i></li>
+                            <li class="breadcrumb-item active" aria-current="page">Đơn Hàng</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="row g-10">
+            <div class="col-xl-12 col-lg-12">
+                <div class="panel mb-10">
+                    <div class="panel-body">
+                        <table id="myTable" class="table table-light data-table">
+                            <thead>
+                            <tr class="table-light">
+                                <th>Mã</th>
+                                <th>Người Mua</th>
+                                <th style="width: 170px">Ngày Đặt</th>
+                                <th style="width: 240px">Tổng Đơn</th>
+                                <th style="width: 100px">Trạng Thái</th>
+                                <th style="width: 120px">Tùy Chọn</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${orderListDTO}">
+                                <td th:text="${item.id}"></td>
+                                <td th:text="${item.fullName}"></td>
+                                <td th:text="${item.orderDate}"></td>
+                                <td th:text="${item.totalAmount + ' VNĐ'}"></td>
+                                <td th:switch="${item.progress}" class="text-center">
+                                    <span class="badge bg-danger" th:case="'CANCELED'">Đã Hủy</span>
+                                    <span class="badge bg-warning" th:case="'PENDING'">Chờ Duyệt</span>
+                                    <span class="badge bg-info" th:case="'APPROVED'">Đã Duyệt</span>
+                                    <span class="badge" style="background-color: #fd7e14" th:case="'SHIPPING'">Đang Vận Chuyển</span>
+                                    <span class="badge bg-success" th:case="'COMPLETED'">Hoàn Thành</span>
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm"
+                                       th:href="@{'/back/order/form/' + ${item.id}}"
+                                    >
+                                        <i class="bi bi-eye-fill"></i>
+                                        Xem
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr class="table-light">
+                                <th>Mã</th>
+                                <th>Người Mua</th>
+                                <th>Ngày Đặt</th>
+                                <th>Tổng Đơn</th>
+                                <th style="width: 100px">Trạng Thái</th>
+                                <th style="width: 120px">Tùy Chọn</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/resources/back/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/resources/back/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+<script th:src="@{/resources/back/js/apexcharts.js}"></script>
+<script th:src="@{/resources/back/js/sweetalert.min.js}"></script>
+<script th:src="@{/resources/back/js/toastify-js.js}"></script>
+<script th:src="@{/resources/back/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/resources/back/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/resources/back/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/resources/back/js/main.js}"></script>
+<script th:src="@{/resources/back/js/datatables-init.js}"></script>
+</body>
+</html>

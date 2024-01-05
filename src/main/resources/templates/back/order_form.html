@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Đơn Hàng | Transport</title>
+
+        <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/front/img/favicon.png}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/animate.min.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/bootstrap-icon/bootstrap-icons.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/fontawesome.min.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/jquery.mCustomScrollbar.min.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/sweetalert.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/toastify.min.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/jquery.dataTables.min.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/responsive.bootstrap.min.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/bootstrap.min.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/style.css}" />
+        <script src="https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.9/dist/goong-js.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.9/dist/goong-js.css" rel="stylesheet" />
+
+        <style>
+            .text-product-overflow {
+                max-width: 100px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            #map {
+                position: absolute;
+                top: 10px;
+                bottom: 0;
+                height: 94%;
+                width: 94%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <button class="sidebar-collapse-mini d-xl-none d-block"><i class="bi bi-list"></i></button>
+
+            <div th:replace="~{fragments/back/sidebar :: sidebar}"></div>
+
+            <div class="main-content">
+                <div class="breadcrumb-wrap mb-20">
+                    <div class="d-md-flex d-block justify-content-between align-items-center">
+                        <div class="left">
+                            <h1>Duyệt Đơn Hàng</h1>
+                        </div>
+                        <div class="right">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/back/dashboard">Trang Chủ</a></li>
+                                    <li class="breadcrumb-item"><i class="bi bi-caret-right"></i></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Đơn Hàng</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-10">
+                    <div class="col-xl-12 col-lg-12 mb-20">
+                        <div
+                            class="alert"
+                            th:if="${messageDTO != null && messageDTO.key == 'save'}"
+                            th:classappend="${messageDTO.status == 'success' ? ' alert-success alert-dismissible' : ' alert-warning alert-dismissible'}"
+                        >
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <h5><i class="icon fas fa-exclamation-triangle"></i> Thông Báo</h5>
+                            <span th:text="${messageDTO.message}"></span>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="panel mb-10">
+                            <div class="panel-body">
+                                <form
+                                    method="post"
+                                    enctype="multipart/form-data"
+                                    th:action="@{/back/order/form}"
+                                    th:object="${orderDTO}"
+                                    class="row g-3"
+                                >
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <label for="validationCustom01" class="form-label">Người Nhận</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="validationCustom01"
+                                                    name="fullName"
+                                                    th:field="*{fullName}"
+                                                    readonly
+                                                />
+                                            </div>
+
+                                            <div class="col-md-6 mb-4">
+                                                <label for="validationCustom03" class="form-label">Số Điện Thoại</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="validationCustom03"
+                                                    name="phone"
+                                                    th:field="*{phone}"
+                                                    readonly
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 mb-4">
+                                            <label for="inputDescription" class="form-label">Ghi Chú</label>
+                                            <textarea
+                                                class="form-control"
+                                                id="inputDescription"
+                                                name="note"
+                                                style="height: 132px"
+                                                th:field="*{note}"
+                                                rows="3"
+                                                readonly
+                                            >
+                                            </textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="col-md-12 mb-4">
+                                            <label for="validationCustom02" class="form-label">Địa Chỉ</label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="validationCustom02"
+                                                name="address"
+                                                th:field="*{address}"
+                                                readonly
+                                            />
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-8 mb-4">
+                                                <label for="validationTotalAmount" class="form-label"
+                                                    >Tổng Tiền (VNĐ)</label
+                                                >
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="validationTotalAmount"
+                                                    name="totalAmount"
+                                                    th:field="*{totalAmount}"
+                                                    readonly
+                                                />
+                                            </div>
+
+                                            <div class="col-md-4 mb-4">
+                                                <label for="validationOrderDate" class="form-label">Ngày Đặt</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="validationOrderDate"
+                                                    name="orderDate"
+                                                    th:field="*{orderDate}"
+                                                    readonly
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 mb-4">
+                                            <label for="inputCategory" class="form-label">Trạng Thái</label>
+                                            <select class="form-select" id="inputCategory" th:field="*{progress}">
+                                                <option value="PENDING">Chờ Duyệt</option>
+                                                <option value="APPROVED">Đã Duyệt</option>
+                                                <option value="SHIPPING">Đang Vận Chuyển</option>
+                                                <option value="COMPLETED">Hoàn Thành</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-12 mb-4">
+                                            <label>Hóa Đơn</label>
+                                            <img style="width: 150px; display: block; " th:src="@{${orderDTO.image}}" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="hidden" name="status" value="true" />
+                                        <input type="hidden" name="id" th:field="*{id}" />
+                                        <input type="hidden" name="accountId" th:field="*{accountId}" />
+                                        <button class="btn btn-primary" type="submit">Lưu Dữ Liệu</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-10">
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="panel mb-10">
+                            <div class="panel-heading">
+                                <span>Danh Sách Sản Phẩm</span>
+                            </div>
+                            <div class="panel-body">
+                                <table id="myTable" class="table table-light data-table">
+                                    <thead>
+                                        <tr class="table-light">
+                                            <th style="width: 120px">Mã</th>
+                                            <th style="width: 90px">Hình Ảnh</th>
+                                            <th>Tên Sản Phẩm</th>
+                                            <th>Giá</th>
+                                            <th>Giảm Giá</th>
+                                            <th style="width: 110px">Số Lượng</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="item : ${orderItemListDTO}">
+                                            <td th:text="${item.productDTO.id}"></td>
+                                            <td><img th:src="@{${item.productDTO.image}}" alt="image" /></td>
+                                            <td class="text-product-overflow" th:text="${item.productDTO.title}"></td>
+                                            <td class="text-center" th:text="${item.price + ' VNĐ'}"></td>
+                                            <td class="text-center" th:text="${item.discount}"></td>
+                                            <td class="text-center" th:text="${item.quantity}"></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="table-light">
+                                            <th style="width: 120px">Mã</th>
+                                            <th style="width: 90px">Hình Ảnh</th>
+                                            <th>Tên Sản Phẩm</th>
+                                            <th>Giá</th>
+                                            <th>Giảm Giá</th>
+                                            <th style="width: 110px">Số Lượng</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-10">
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="panel mb-10">
+                            <div class="panel-heading">
+                                <span>Danh Sách Người Giao Hàng</span>
+                                <a
+                                    class="btn btn-primary float-right"
+                                    th:if="${progress}"
+                                    th:href="@{'/back/shipping/form?shippingId=0&orderId=' + ${orderDTO.id}}"
+                                >
+                                    Thêm Người Giao Hàng
+                                </a>
+                            </div>
+                            <div class="panel-body">
+                                <table id="myTable1" class="table table-light data-table">
+                                    <thead>
+                                        <tr class="table-light">
+                                            <th>Mã</th>
+                                            <th>Tên Người Giao</th>
+                                            <th style="width: 250px">Địa Chỉ Hiện Tại</th>
+                                            <th style="width: 100px">Trạng Thái</th>
+                                            <th>Tùy Chọn</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="item : ${shippingListDTO}">
+                                            <td th:text="${item.id}"></td>
+                                            <td th:text="${item.shipperDTO.fullName}"></td>
+                                            <td th:text="${item.addressFrom}"></td>
+                                            <td th:switch="${item.progress}">
+                                                <span class="badge bg-warning" th:case="PENDING">Đang Lấy Hàng</span>
+                                                <span class="badge bg-info" th:case="APPROVED">Đang Giao</span>
+                                                <span class="badge bg-success" th:case="COMPLETED">Thành Công</span>
+                                                <span class="badge bg-danger" th:case="CANCEL">Không Thành Công</span>
+                                            </td>
+                                            <td>
+                                                <a
+                                                    class="btn btn-primary btn-sm"
+                                                    th:href="@{'/back/shipping/form?shippingId=' + ${item.id} + '&orderId=' + ${item.orderDTO.id}}"
+                                                >
+                                                    <i class="bi bi-eye-fill"></i>
+                                                    Xem
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="table-light">
+                                            <th>Mã</th>
+                                            <th>Tên Người Giao</th>
+                                            <th style="width: 250px">Địa Chỉ Hiện Tại</th>
+                                            <th style="width: 100px">Trạng Thái</th>
+                                            <th>Tùy Chọn</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-10" id="data-map" style="position: relative" th:if="${shippingListDTO != null}">
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="panel mb-10" style="height: 500px">
+                            <div class="panel-heading">
+                                <span>Bản Đồ</span>
+                            </div>
+                            <div class="panel-body">
+                                <div id="map"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-none">
+            <ul id="myList">
+                <li th:each="item : ${warehouseDTOList}">
+                    <p class="locationLat" th:text="${item.locationLat}"></p>
+                    <p class="locationLng" th:text="${item.locationLng}"></p>
+                    <p class="address" th:text="${item.address}"></p>
+                </li>
+            </ul>
+        </div>
+
+        <script th:src="@{/resources/back/js/jquery-3.6.0.min.js}"></script>
+        <script th:src="@{/resources/back/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+        <script th:src="@{/resources/back/js/apexcharts.js}"></script>
+        <script th:src="@{/resources/back/js/sweetalert.min.js}"></script>
+        <script th:src="@{/resources/back/js/toastify-js.js}"></script>
+        <script th:src="@{/resources/back/js/jquery.dataTables.min.js}"></script>
+        <script th:src="@{/resources/back/js/dataTables.responsive.min.js}"></script>
+        <script th:src="@{/resources/back/js/bootstrap.bundle.min.js}"></script>
+        <script th:src="@{/resources/back/js/main.js}"></script>
+        <script th:src="@{/resources/back/js/datatables-init.js}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@mapbox/polyline/src/polyline.js"></script>
+        <script src="https://unpkg.com/@goongmaps/goong-sdk/umd/goong-sdk.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                const accessToken = "[[${@environment.getProperty('goong.mapKey')}]]";
+                const api_key = "[[${@environment.getProperty('goong.apiKey')}]]";
+
+                const location = [];
+                const origin_destination = [];
+                var listLocationLngs = $("#myList .locationLng");
+                var listLocationLats = $("#myList .locationLat");
+                var addressLast = $("#myList .address:last").text();
+
+                listLocationLats.each(function (indexLat, lat) {
+                    listLocationLngs.each(function (indexLng, lng) {
+                        var array = [];
+                        var arrayOriginDes = [];
+                        if (indexLat == indexLng && $(lng).text() != "0") {
+                            array.push(parseFloat($(lng).text()), parseFloat($(lat).text()));
+                            location.push(array);
+
+                            origin_destination.push($(lat).text() + "," + $(lng).text());
+                        }
+                    });
+                });
+
+                const url_to = "https://rsapi.goong.io/Place/AutoComplete?api_key=" + api_key + "&input=" + addressLast;
+                getPlaceId(url_to)
+                    .then(function (destinationPlaceId) {
+                        return {
+                            destinationPlaceId: destinationPlaceId,
+                        };
+                    })
+                    .then(function (data) {
+                        const url_get_place_detail =
+                            "https://rsapi.goong.io/Place/Detail?place_id=" +
+                            data.destinationPlaceId +
+                            "&api_key=" +
+                            api_key;
+                        return getPlaceDetailById(url_get_place_detail).then(function (locationDestination) {
+                            return {
+                                locationDestination: locationDestination,
+                            };
+                        });
+                    })
+                    .then(function (data) {
+                        location.push([data.locationDestination.lng, data.locationDestination.lat]);
+                        origin_destination.push(data.locationDestination.lat + "," + data.locationDestination.lng);
+                        drawMap(accessToken, api_key, location, origin_destination);
+                    });
+            });
+
+            function getPlaceId(url) {
+                return new Promise(function (resolve) {
+                    $.ajax({
+                        url: url,
+                        success: function (data) {
+                            resolve(data.predictions[0].place_id);
+                        },
+                    });
+                });
+            }
+
+            function getPlaceDetailById(url) {
+                return new Promise(function (resolve) {
+                    $.ajax({
+                        url: url,
+                        success: function (data) {
+                            resolve(data.result.geometry.location);
+                        },
+                    });
+                });
+            }
+
+            function drawMap(accessToken, api_key, location, origin_destination) {
+                goongjs.accessToken = accessToken;
+                var map = new goongjs.Map({
+                    container: "map", // container id
+                    style: "https://tiles.goong.io/assets/goong_map_web.json", // stylesheet location
+                    center: location[0], // starting position [lng, lat]
+                    zoom: 11.5, // starting zoom
+                });
+
+                var options = {
+                    color: "#FF0000",
+                };
+
+                // tạo marker cho địa điểm
+                for (var i = 0; i < location.length; i++) {
+                    new goongjs.Marker().setLngLat(location[i]).addTo(map);
+
+                    // nếu ở địa điểm cuối cùng -> đổi thành màu đỏ
+                    if (i == location.length - 1) {
+                        new goongjs.Marker(options).setLngLat(location[i]).addTo(map);
+                    }
+                }
+
+                map.on("load", function () {
+                    var layers = map.getStyle().layers;
+                    // Find the index of the first symbol layer in the map style
+                    var firstSymbolId;
+                    for (var i = 0; i < layers.length; i++) {
+                        if (layers[i].type === "symbol") {
+                            firstSymbolId = layers[i].id;
+                            break;
+                        }
+                    }
+
+                    var goongClient = goongSdk({
+                        accessToken: api_key,
+                    });
+
+                    for (var i = 0; i < location.length; i++) {
+                        // nếu location không ở vị trí cuối thì thực hiện vẽ đường đi
+                        // destination là vị trí thứ i + 1 nên không thể lặp khi ở phần tử cuối cùng.
+                        if (i != location.length - 1) {
+                            // Initialize goongClient with an API KEY
+                            var goongClient = goongSdk({
+                                accessToken: api_key,
+                            });
+                            let routeName = "route" + i;
+                            goongClient.directions
+                                .getDirections({
+                                    origin: origin_destination[i],
+                                    destination: origin_destination[i + 1],
+                                    vehicle: "car",
+                                })
+                                .send()
+                                .then(function (response) {
+                                    var directions = response.body;
+                                    var route = directions.routes[0];
+
+                                    var geometry_string = route.overview_polyline.points;
+                                    var geoJSON = polyline.toGeoJSON(geometry_string);
+                                    map.addSource(routeName, {
+                                        type: "geojson",
+                                        data: geoJSON,
+                                    });
+                                    // Add route layer below symbol layers
+                                    map.addLayer(
+                                        {
+                                            id: routeName,
+                                            type: "line",
+                                            source: routeName,
+                                            layout: {
+                                                "line-join": "round",
+                                                "line-cap": "round",
+                                            },
+                                            paint: {
+                                                "line-color": "#1e88e5",
+                                                "line-width": 8,
+                                            },
+                                        },
+                                        firstSymbolId
+                                    );
+                                });
+                        }
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Giao Hàng | Transport</title>
+
+        <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/front/img/favicon.png}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/animate.min.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/bootstrap-icon/bootstrap-icons.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/fontawesome.min.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/jquery.mCustomScrollbar.min.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/sweetalert.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/toastify.min.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/jquery.dataTables.min.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/responsive.bootstrap.min.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/bootstrap.min.css}" />
+        <link rel="stylesheet" th:href="@{/resources/back/css/style.css}" />
+        <script src="https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.9/dist/goong-js.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.9/dist/goong-js.css" rel="stylesheet" />
+        <style>
+            #map {
+                position: absolute;
+                top: 10px;
+                bottom: 0;
+                height: 94%;
+                width: 94%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <button class="sidebar-collapse-mini d-xl-none d-block"><i class="bi bi-list"></i></button>
+
+            <div th:replace="~{fragments/back/sidebar :: sidebar}"></div>
+
+            <div class="main-content">
+                <div class="breadcrumb-wrap mb-20">
+                    <div class="d-md-flex d-block justify-content-between align-items-center">
+                        <div class="left">
+                            <h1>Giao Hàng</h1>
+                        </div>
+                        <div class="right">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/back/dashboard">Trang Chủ</a></li>
+                                    <li class="breadcrumb-item"><i class="bi bi-caret-right"></i></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Giao Hàng</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-10">
+                    <div class="col-xl-12 col-lg-12 mb-20">
+                        <div
+                            class="alert"
+                            th:if="${messageDTO != null && messageDTO.key == 'save'}"
+                            th:classappend="${messageDTO.status == 'success' ? ' alert-success alert-dismissible' : ' alert-warning alert-dismissible'}"
+                        >
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <h5><i class="icon fas fa-exclamation-triangle"></i> Thông Báo</h5>
+                            <span th:text="${messageDTO.message}"></span>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="panel mb-10">
+                            <div class="panel-body">
+                                <form
+                                    method="post"
+                                    class="row g-3"
+                                    th:action="@{/back/shipping/form}"
+                                    th:object="${shippingDTO}"
+                                >
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <label for="validationCustom01" class="form-label">Mã Giao Hàng</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="validationCustom01"
+                                                    th:field="*{id}"
+                                                    disabled
+                                                />
+                                            </div>
+
+                                            <div class="col-md-6 mb-4">
+                                                <label for="inputOrder" class="form-label">Mã Đơn Hàng</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="inputOrder"
+                                                    th:field="*{orderId}"
+                                                    disabled
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 mb-4">
+                                            <label for="inputAddressFrom" class="form-label">Nơi Đi</label>
+                                            <select
+                                                class="form-select form-control"
+                                                th:classappend="${#fields.hasErrors('addressFrom')} ? 'is-invalid' : ''"
+                                                id="inputAddressFrom"
+                                                th:field="*{addressFrom}"
+                                                th:disabled="${userLogin.role == 'SHIPPER'}"
+                                            >
+                                                <option value="default">Chọn Nơi Đi...</option>
+                                                <option
+                                                    th:each="item, iterStat : ${warehouseList}"
+                                                    th:if="${iterStat.index > 0}"
+                                                    th:value="${item.address}"
+                                                    th:text="${item.title}"
+                                                ></option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-12 mb-4">
+                                            <label for="inputProgress" class="form-label">Tình Trạng</label>
+                                            <select
+                                                class="form-select form-control"
+                                                id="inputProgress"
+                                                th:field="*{progress}"
+                                            >
+                                                <option value="PENDING">Đang Lấy Hàng</option>
+                                                <option value="APPROVED">Đang Giao</option>
+                                                <option value="COMPLETED">Thành Công</option>
+                                                <option value="CANCEL">Không Thành Công</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <p
+                                                class="text-danger"
+                                                th:if="${#fields.hasErrors('addressFrom')}"
+                                                th:errors="*{addressFrom}"
+                                            ></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-12 mb-4">
+                                            <label for="inputShipper" class="form-label">Người Giao Hàng</label>
+                                            <select
+                                                class="form-select form-control"
+                                                th:classappend="${#fields.hasErrors('shipperId')} ? 'is-invalid' : ''"
+                                                id="inputShipper"
+                                                th:field="*{shipperId}"
+                                                th:disabled="${userLogin.role == 'SHIPPER'}"
+                                            >
+                                                <option value="0">Chọn Người Giao Hàng...</option>
+                                                <option
+                                                    th:each="item : ${shipperListDTO}"
+                                                    th:value="${item.id}"
+                                                    th:text="${item.fullName}"
+                                                ></option>
+                                            </select>
+                                            <p
+                                                class="text-danger mt-2"
+                                                th:if="${#fields.hasErrors('shipperId')}"
+                                                th:errors="*{shipperId}"
+                                            ></p>
+                                        </div>
+
+                                        <div class="col-md-12 mb-2">
+                                            <label for="inputAddressTo" class="form-label">Nơi Đến</label>
+                                            <select
+                                                class="form-select form-control"
+                                                id="inputAddressTo"
+                                                th:field="*{addressTo}"
+                                                th:disabled="${userLogin.role == 'SHIPPER'}"
+                                            >
+                                                <option
+                                                    th:each="item : ${warehouseList}"
+                                                    th:value="${item.address}"
+                                                    th:text="${item.title}"
+                                                ></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="inputNote" class="form-label">Ghi Chú</label>
+                                        <input type="text" class="form-control" id="inputNote" th:field="*{note}" />
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="hidden" name="orderId" th:field="*{orderId}" />
+                                        <input type="hidden" name="id" th:field="*{id}" />
+                                        <input
+                                            type="hidden"
+                                            name="shipperId"
+                                            th:field="*{shipperId}"
+                                            th:disabled="${userLogin.role != 'SHIPPER'}"
+                                        />
+                                        <input
+                                            type="hidden"
+                                            name="addressFrom"
+                                            th:field="*{addressFrom}"
+                                            th:disabled="${userLogin.role != 'SHIPPER'}"
+                                        />
+                                        <input
+                                            type="hidden"
+                                            name="addressTo"
+                                            th:field="*{addressTo}"
+                                            th:disabled="${userLogin.role != 'SHIPPER'}"
+                                        />
+                                        <button class="btn btn-primary" type="submit">Lưu Dữ Liệu</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="col-xl-12 col-lg-12"
+                        style="position: relative"
+                        th:if="${shippingDTO.id != 0}"
+                        id="data-map"
+                    >
+                        <div class="panel mb-10" style="height: 500px">
+                            <div class="panel-heading">
+                                <span>Bản Đồ</span>
+                            </div>
+                            <div class="panel-body">
+                                <div id="map"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script th:src="@{/resources/back/js/jquery-3.6.0.min.js}"></script>
+        <script th:src="@{/resources/back/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+        <script th:src="@{/resources/back/js/apexcharts.js}"></script>
+        <script th:src="@{/resources/back/js/sweetalert.min.js}"></script>
+        <script th:src="@{/resources/back/js/toastify-js.js}"></script>
+        <script th:src="@{/resources/back/js/jquery.dataTables.min.js}"></script>
+        <script th:src="@{/resources/back/js/dataTables.responsive.min.js}"></script>
+        <script th:src="@{/resources/back/js/bootstrap.bundle.min.js}"></script>
+        <script th:src="@{/resources/back/js/main.js}"></script>
+        <script th:src="@{/resources/back/js/datatables-init.js}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@mapbox/polyline/src/polyline.js"></script>
+        <script src="https://unpkg.com/@goongmaps/goong-sdk/umd/goong-sdk.min.js"></script>
+        <script th:if="${shippingDTO.id != 0}">
+            $(document).ready(function () {
+                const accessToken = "[[${@environment.getProperty('goong.mapKey')}]]";
+                const api_key = "[[${@environment.getProperty('goong.apiKey')}]]";
+                const url_to =
+                    "https://rsapi.goong.io/Place/AutoComplete?api_key=" +
+                    api_key +
+                    "&input=" +
+                    "[[${shippingDTO.addressTo}]]";
+
+                function getPlaceId(url) {
+                    return new Promise(function (resolve) {
+                        $.ajax({
+                            url: url,
+                            success: function (data) {
+                                resolve(data.predictions[0].place_id);
+                            },
+                        });
+                    });
+                }
+
+                function getPlaceDetailById(url) {
+                    return new Promise(function (resolve) {
+                        $.ajax({
+                            url: url,
+                            success: function (data) {
+                                resolve(data.result.geometry.location);
+                            },
+                        });
+                    });
+                }
+
+                function drawMap(accessToken, api_key, data) {
+                    const origin = "[[${warehouseDTO.locationLat}]], [[${warehouseDTO.locationLng}]]";
+                    const destination = data.locationDestination.lat + "," + data.locationDestination.lng;
+
+                    const start_position_lat = [[${warehouseDTO.locationLat}]];
+                    const start_position_lng = [[${warehouseDTO.locationLng}]];
+
+                    const start_position = [start_position_lng, start_position_lat];
+                    const marker_destination = [data.locationDestination.lng, data.locationDestination.lat];
+
+                    goongjs.accessToken = accessToken;
+                    var map = new goongjs.Map({
+                        container: "map", // container id
+                        style: "https://tiles.goong.io/assets/goong_map_web.json", // stylesheet location
+                        center: start_position, // starting position [lng, lat]
+                        zoom: 11.5, // starting zoom
+                    });
+
+                    var options = {
+                        color: "#FF0000",
+                    };
+
+                    new goongjs.Marker().setLngLat(start_position).addTo(map);
+                    new goongjs.Marker(options).setLngLat(marker_destination).addTo(map);
+
+                    map.on("load", function () {
+                        var layers = map.getStyle().layers;
+                        // Find the index of the first symbol layer in the map style
+                        var firstSymbolId;
+                        for (var i = 0; i < layers.length; i++) {
+                            if (layers[i].type === "symbol") {
+                                firstSymbolId = layers[i].id;
+                                break;
+                            }
+                        }
+                        // Initialize goongClient with an API KEY
+                        var goongClient = goongSdk({
+                            accessToken: api_key,
+                        });
+                        // Get Directions
+                        goongClient.directions
+                            .getDirections({
+                                origin: origin,
+                                destination: destination,
+                                vehicle: "car",
+                            })
+                            .send()
+                            .then(function (response) {
+                                var directions = response.body;
+                                var route = directions.routes[0];
+
+                                var geometry_string = route.overview_polyline.points;
+                                var geoJSON = polyline.toGeoJSON(geometry_string);
+                                map.addSource("route", {
+                                    type: "geojson",
+                                    data: geoJSON,
+                                });
+                                // Add route layer below symbol layers
+                                map.addLayer(
+                                    {
+                                        id: "route",
+                                        type: "line",
+                                        source: "route",
+                                        layout: {
+                                            "line-join": "round",
+                                            "line-cap": "round",
+                                        },
+                                        paint: {
+                                            "line-color": "#1e88e5",
+                                            "line-width": 8,
+                                        },
+                                    },
+                                    firstSymbolId
+                                );
+                            });
+                    });
+                }
+
+                getPlaceId(url_to)
+                    .then(function (destinationPlaceId) {
+                        return {
+                            destinationPlaceId: destinationPlaceId
+                        };
+                    })
+                    .then(function (data) {
+                        const url_get_place_detail =
+                            "https://rsapi.goong.io/Place/Detail?place_id=" +
+                            data.destinationPlaceId +
+                            "&api_key=" +
+                            api_key;
+
+                        return getPlaceDetailById(url_get_place_detail).then(function (locationDestination) {
+                            return {
+                                    locationDestination: locationDestination,
+                                };
+                        });
+                    })
+                    .then(function (data) {
+                        drawMap(accessToken, api_key, data);
+                    });
+            });
+        </script>
+    </body>
+</html>

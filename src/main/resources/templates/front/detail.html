@@ -1,0 +1,162 @@
+<!Doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>[[${productDTO.title}]] | Transporter</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/front/img/favicon.png}">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- CSS here -->
+    <link rel="stylesheet" th:href="@{/resources/front/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/fontawesome-all.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/odometer.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/aos.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/slick.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/default.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/responsive.css}">
+</head>
+<body>
+
+<!-- Scroll-top -->
+<button class="scroll-top scroll-to-target" data-target="html">
+    <i class="fas fa-angle-up"></i>
+</button>
+<!-- Scroll-top-end-->
+
+<div th:replace="~{fragments/front/header :: header}"></div>
+
+<!-- main-area -->
+<main>
+
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb-area breadcrumb-bg" data-background="/resources/front/img/bg/breadcrumb_bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content text-center">
+                        <h2>[[${productDTO.title}]]</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">Trang Chủ</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Sản Phẩm</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+
+    <!-- shop-details-area -->
+    <section class="shop-details-area pt-100 pb-100">
+        <div class="container">
+            <div class="row mb-95">
+                <div class="col-xl-7 col-lg-6">
+                    <div class="shop-details-img-wrap">
+                        <div class="shop-details-active">
+                            <div class="shop-details-img">
+                                <a th:href="@{${productDTO.image}}" class="popup-image">
+                                    <img th:src="@{${productDTO.image}}" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-6">
+                    <div class="shop-details-content">
+                        <span class="stock-info">In Stock</span>
+                        <h2 th:text="${productDTO.title}"></h2>
+                        <div class="shop-details-price">
+                            <th:block th:unless="${productDTO.discount == '0'}">
+                                <h2>[[${productDTO.newPrice}]] VNĐ <del>[[${productDTO.price}]] VNĐ</del></h2>
+                            </th:block>
+                            <th:block th:if="${productDTO.discount == '0'}">
+                                <h2 th:text="${productDTO.price} + ' VNĐ'"></h2>
+                            </th:block>
+                        </div>
+                        <p th:text="${productDTO.description}"></p>
+                        <div class="perched-info">
+                            <div class="cart-plus">
+                                <form method="post"
+                                      th:object="${cartItemDTO}"
+                                      th:action="@{/cart}">
+                                    <div class="cart-plus-minus">
+                                        <input type="text" name="quantity" value="1" />
+                                    </div>
+                                    <input type="hidden" name="productId" th:value="${productDTO.id}"/>
+                                    <button class="btn add-card-btn mt-4">THÊM VÀO GIỎ HÀNG</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="product-desc-wrap mb-100">
+                        <ul class="nav nav-tabs mb-25" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details"
+                                   aria-selected="true" style="font-weight: 600">Mô tả sản phẩm</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+                                <div class="product-desc-content">
+                                    <h4 class="title">Thông tin chi tiết</h4>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-md-4">
+                                            <div class="product-desc-img">
+                                                <img th:src="@{${productDTO.image}}" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-9 col-md-8">
+                                            <h5 class="small-title" th:text="${productDTO.title}"></h5>
+                                            <p th:text="${productDTO.detail}"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- shop-details-area-end -->
+
+</main>
+<!-- main-area-end -->
+
+<div th:replace="~{fragments/front/footer :: footer}"></div>
+
+<!-- JS here -->
+<script th:src="@{/resources/front/js/vendor/jquery-3.5.0.min.js}"></script>
+<script th:src="@{/resources/front/js/popper.min.js}"></script>
+<script th:src="@{/resources/front/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/front/js/isotope.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/resources/front/js/owl.carousel.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.odometer.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.countdown.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.appear.js}"></script>
+<script th:src="@{/resources/front/js/slick.min.js}"></script>
+<script th:src="@{/resources/front/js/ajax-form.js}"></script>
+<script th:src="@{/resources/front/js/wow.min.js}"></script>
+<script th:src="@{/resources/front/js/aos.js}"></script>
+<script th:src="@{/resources/front/js/plugins.js}"></script>
+<script th:src="@{/resources/front/js/main.js}"></script>
+</body>
+</html>

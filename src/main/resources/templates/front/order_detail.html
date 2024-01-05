@@ -1,0 +1,246 @@
+<!Doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Thông Tin Tài Khoản | Transporter</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/front/img/favicon.png}">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- CSS here -->
+    <link rel="stylesheet" th:href="@{/resources/front/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/fontawesome-all.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/odometer.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/aos.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/slick.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/default.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/responsive.css}">
+
+    <style>
+        .list-group-flush .list-group-item {
+            color: #696868;
+        }
+        .list-group-item.active {
+            border-color: #ff6000;
+            background: #ff6000;
+            color: #fff;
+        }
+        .btn-color {
+            background: #ff6000 !important;
+        }
+        .btn-danger {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .badge {
+            padding: 0.7em 1.4em;
+        }
+    </style>
+
+</head>
+<body>
+
+<!-- Scroll-top -->
+<button class="scroll-top scroll-to-target" data-target="html">
+    <i class="fas fa-angle-up"></i>
+</button>
+<!-- Scroll-top-end-->
+
+<div th:replace="~{fragments/front/header :: header}"></div>
+
+<!-- main-area -->
+<main>
+
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb-area breadcrumb-bg" data-background="/resources/front/img/bg/breadcrumb_bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content text-center">
+                        <h2>Thông Tin Tài Khoản</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">Trang Chủ</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Thông Tin Tài Khoản</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+
+    <section class="shop-details-area pt-100 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card shadow-none mb-3 mb-lg-0">
+                        <div class="card-body p-0">
+                            <div class="list-group list-group-flush">
+                                <a href="/profile"
+                                   class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                                    Thông Tin Tài Khoản
+                                    <i class="fas fa-user"></i>
+                                </a>
+                                <a href="/profile/order"
+                                   class="list-group-item d-flex active justify-content-between align-items-center">
+                                    Đơn Mua
+                                    <i class="fas fa-clipboard-list"></i>
+                                </a>
+                                <a href="/change-password"
+                                   class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                                    Thay Đổi Mật Khẩu
+                                    <i class="fas fa-lock"></i>
+                                </a>
+                                <a href="/logout"
+                                   class="list-group-item d-flex justify-content-between align-items-center bg-transparent">Đăng
+                                    Xuất
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="card shadow-none mb-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h3 class="mb-3">Chi Tiết Đơn Mua</h3>
+                                </div>
+                                <div class="col-md-4" th:switch="${orderDTO.progress}">
+                                    <p class="mb-3 badge bg-danger text-white" th:case="'CANCELED'">Đã Hủy</p>
+                                    <p class="mb-3 badge bg-warning text-white" th:case="'PENDING'">Chờ
+                                        Duyệt</p>
+                                    <p class="mb-3 badge bg-info text-white" th:case="'APPROVED'">Đã Duyệt</p>
+                                    <p class="mb-3 badge text-white" style="background-color: #fd7e14;" th:case="'SHIPPING'">Đang
+                                        Vận Chuyển</p>
+                                    <p class="mb-3 badge bg-success text-white" th:case="'COMPLETED'">Hoàn
+                                        Thành</p>
+                                </div>
+                                <div class="col-md-4"
+                                     th:if="${orderDTO.progress == 'PENDING'}">
+                                    <a class="btn btn-danger float-right"
+                                       th:href="@{'/profile/order/cancel/' + ${orderDTO.id}}">Hủy Đơn Hàng</a>
+                                </div>
+                            </div>
+                            <div class="checkout-form">
+                                <div class="checkout-wrap">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="col-md-12">
+                                                <div class="form-grp ">
+                                                    <label>Họ & Tên</label>
+                                                    <h3 th:text="${orderDTO.fullName}"></h3>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-grp">
+                                                    <label>Địa Chỉ</label>
+                                                    <h3 th:text="${orderDTO.address}"></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-md-12">
+                                                <div class="form-grp">
+                                                    <label>Số Điện Thoại</label>
+                                                    <h3 th:text="${orderDTO.phone}"></h3>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-grp mb-0">
+                                                    <label>Ghi Chú</label>
+                                                    <h3 th:text="${orderDTO.note}"></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow-none mb-0 mt-3 shop-cart-area wishlist-area">
+                        <div class="card-body">
+                            <h4>Danh Sách Sản Phẩm</h4>
+                            <div class="table-responsive-xl">
+                                <table class="table mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="product-thumbnail"></th>
+                                        <th class="product-name" style="width: 250px">Sản Phẩm</th>
+                                        <th class="product-price">Đơn Giá</th>
+                                        <th class="product-quantity">Số Lượng</th>
+                                        <th class="product-subtotal">Số Tiền</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="item : ${orderDTO.orderItemDTOList}">
+                                        <td class="product-thumbnail d-flex align-items-center"
+                                            style="    padding: 25px 5px;">
+                                            <a th:href="@{'/product-detail/' + ${item.productDTO.id}}"><img
+                                                    style="width: 90px;" th:src="@{${item.productDTO.image}}"
+                                                    alt=""></a>
+                                        </td>
+                                        <td class="product-name">
+                                            <h4><a th:href="@{'/product-detail/' + ${item.productDTO.id}}"
+                                                   th:text="${item.productDTO.title}"></a></h4>
+                                            <p th:text="${item.productDTO.detail}"></p>
+                                        </td>
+                                        <th:block th:unless="${item.productDTO.discount == '0'}">
+                                            <td class="product-price"
+                                                th:text="${item.productDTO.newPrice + ' VNĐ'}"></td>
+                                        </th:block>
+                                        <th:block th:if="${item.productDTO.discount == '0'}">
+                                            <td class="product-price" th:text="${item.productDTO.price + ' VNĐ'}"></td>
+                                        </th:block>
+                                        <td class="text-center" th:text="${item.quantity}"></td>
+                                        <td class="product-subtotal"><span th:text="${item.totalPrice + ' VNĐ'}"></span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+<!-- main-area-end -->
+
+<div th:replace="~{fragments/front/footer :: footer}"></div>
+
+<!-- JS here -->
+<script th:src="@{/resources/front/js/vendor/jquery-3.5.0.min.js}"></script>
+<script th:src="@{/resources/front/js/popper.min.js}"></script>
+<script th:src="@{/resources/front/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/front/js/isotope.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/resources/front/js/owl.carousel.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.odometer.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.countdown.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.appear.js}"></script>
+<script th:src="@{/resources/front/js/slick.min.js}"></script>
+<script th:src="@{/resources/front/js/ajax-form.js}"></script>
+<script th:src="@{/resources/front/js/wow.min.js}"></script>
+<script th:src="@{/resources/front/js/aos.js}"></script>
+<script th:src="@{/resources/front/js/plugins.js}"></script>
+<script th:src="@{/resources/front/js/main.js}"></script>
+</body>
+</html>

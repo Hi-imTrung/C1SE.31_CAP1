@@ -1,0 +1,187 @@
+<!Doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Liên Hệ | Transporter</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/front/img/favicon.png}">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- CSS here -->
+    <link rel="stylesheet" th:href="@{/resources/front/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/fontawesome-all.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/odometer.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/aos.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/slick.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/default.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/responsive.css}">
+</head>
+<body>
+
+<!-- Scroll-top -->
+<button class="scroll-top scroll-to-target" data-target="html">
+    <i class="fas fa-angle-up"></i>
+</button>
+<!-- Scroll-top-end-->
+
+<div th:replace="~{fragments/front/header :: header}"></div>
+
+<!-- main-area -->
+<main>
+
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb-area breadcrumb-bg" data-background="/resources/front/img/bg/breadcrumb_bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content text-center">
+                        <h2>Liên Hệ</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">Trang Chủ</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Liên Hệ</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+
+    <!-- contact-area -->
+    <section class="contact-area primary-bg pt-100 pb-70">
+        <div class="container">
+            <div class="contact-wrap-padding">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-6 col-sm-8">
+                        <div class="contact-info-box text-center mb-30">
+                            <div class="contact-box-icon">
+                                <i class="flaticon-placeholder"></i>
+                            </div>
+                            <div class="contact-info-content">
+                                <h5>Our Location</h5>
+                                <p>W898 RTower Stat, Suite 56 Brockland, CA 9622 United States</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-8">
+                        <div class="contact-info-box text-center mb-30">
+                            <div class="contact-box-icon">
+                                <i class="flaticon-mail"></i>
+                            </div>
+                            <div class="contact-info-content">
+                                <h5>Our Email</h5>
+                                <p>Email Us: Support@info.Com</p>
+                                <p>Vanamsupport.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-8">
+                        <div class="contact-info-box text-center mb-30">
+                            <div class="contact-box-icon">
+                                <i class="flaticon-telephone"></i>
+                            </div>
+                            <div class="contact-info-content">
+                                <h5>Phone Number</h5>
+                                <p>Contacr Numbers: 458-965-3224</p>
+                                <p>458-965-3224</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- contact-area-end -->
+
+    <!-- contact-area -->
+    <section class="contact-area pt-100 pb-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-5 col-lg-7 col-md-9">
+                    <div class="contact-title text-center mb-60">
+                        <div class="section-title text-center">
+                            <span class="sub-title">LET’S TALK</span>
+                            <h2 class="title">Send Us a Massage</h2>
+                        </div>
+                        <p>We are always happy to talk with you. Be sure to write to us if you have any
+                            questions or need help and support.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-wrap-padding">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="contact-form">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-grp">
+                                            <input type="text" placeholder="First Name*">
+                                            <i class="far fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-grp">
+                                            <input type="text" placeholder="Last Name*">
+                                            <i class="far fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-grp">
+                                            <input type="email" required placeholder="Your Email*">
+                                            <i class="far fa-envelope"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-grp">
+                                            <input type="text" placeholder="Phone*">
+                                            <i class="fas fa-mobile-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <textarea name="message" id="message" placeholder="Enter Your Massage"></textarea>
+                                <button type="submit" class="btn">submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- contact-area-end -->
+
+</main>
+<!-- main-area-end -->
+
+<div th:replace="~{fragments/front/footer :: footer}"></div>
+
+<!-- JS here -->
+<script th:src="@{/resources/front/js/vendor/jquery-3.5.0.min.js}"></script>
+<script th:src="@{/resources/front/js/popper.min.js}"></script>
+<script th:src="@{/resources/front/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/front/js/isotope.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/resources/front/js/owl.carousel.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.odometer.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.countdown.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.appear.js}"></script>
+<script th:src="@{/resources/front/js/slick.min.js}"></script>
+<script th:src="@{/resources/front/js/ajax-form.js}"></script>
+<script th:src="@{/resources/front/js/wow.min.js}"></script>
+<script th:src="@{/resources/front/js/aos.js}"></script>
+<script th:src="@{/resources/front/js/plugins.js}"></script>
+<script th:src="@{/resources/front/js/main.js}"></script>
+</body>
+</html>

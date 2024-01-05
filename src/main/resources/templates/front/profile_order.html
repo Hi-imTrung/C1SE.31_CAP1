@@ -1,0 +1,172 @@
+<!Doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Thông Tin Tài Khoản | Transporter</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/front/img/favicon.png}">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- CSS here -->
+    <link rel="stylesheet" th:href="@{/resources/front/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/fontawesome-all.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/odometer.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/aos.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/slick.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/default.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/front/css/responsive.css}">
+
+    <style>
+        .list-group-flush .list-group-item {
+           color: #696868;
+       }
+       .list-group-item.active {
+           border-color: #ff6000;
+           background: #ff6000;
+           color: #fff;
+       }
+       .badge {
+         padding: 0.7em 1.4em;
+       }
+    </style>
+
+</head>
+<body>
+
+<!-- Scroll-top -->
+<button class="scroll-top scroll-to-target" data-target="html">
+    <i class="fas fa-angle-up"></i>
+</button>
+<!-- Scroll-top-end-->
+
+<div th:replace="~{fragments/front/header :: header}"></div>
+
+<!-- main-area -->
+<main>
+
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb-area breadcrumb-bg" data-background="/resources/front/img/bg/breadcrumb_bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content text-center">
+                        <h2>Thông Tin Tài Khoản</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">Trang Chủ</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Thông Tin Tài Khoản</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+
+    <section class="shop-details-area pt-100 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card shadow-none mb-3 mb-lg-0">
+                        <div class="card-body p-0">
+                            <div class="list-group list-group-flush">
+                                <a href="/profile" class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                                    Thông Tin Tài Khoản
+                                    <i class="fas fa-user"></i>
+                                </a>
+                                <a href="/profile/order" class="list-group-item active d-flex justify-content-between align-items-center">
+                                    Đơn Mua
+                                    <i class="fas fa-clipboard-list"></i>
+                                </a>
+                                <a href="/change-password" class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                                    Thay Đổi Mật Khẩu
+                                    <i class="fas fa-lock"></i>
+                                </a>
+                                <a href="/logout"
+                                   class="list-group-item d-flex justify-content-between align-items-center bg-transparent">Đăng Xuất
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="card shadow-none mb-0">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class="table-light">
+                                    <tr>
+                                        <th>Mã</th>
+                                        <th>Ngày</th>
+                                        <th>Tổng Tiền</th>
+                                        <th>Trạng Thái</th>
+                                        <th>Tùy Chọn</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="item : ${listOrderDTO}">
+                                        <td th:text="${'#' + item.id}"></td>
+                                        <td th:text="${item.orderDate}"></td>
+                                        <td th:text="${item.totalAmount + ' VNĐ'}"></td>
+                                        <td th:switch="${item.progress}">
+                                            <span class="badge bg-danger" style="color: #fff" th:case="'CANCELED'">Đã Hủy</span>
+                                            <span class="badge bg-warning" th:case="'PENDING'">Chờ Duyệt</span>
+                                            <span class="badge bg-info" style="color: #fff" th:case="'APPROVED'">Đã Duyệt</span>
+                                            <span class="badge" style="background-color: #fd7e14;" th:case="'SHIPPING'">Đang Vận Chuyển</span>
+                                            <span class="badge bg-success" style="color: #fff" th:case="'COMPLETED'">Hoàn Thành</span>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <a th:href="@{'/profile/order/' + ${item.id}}"
+                                                                         class="btn btn-color"
+                                                                         style="font-size: 13px; padding: 13px 27px 10px 27px;">
+                                                    Chi Tiết
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+<!-- main-area-end -->
+
+<div th:replace="~{fragments/front/footer :: footer}"></div>
+
+<!-- JS here -->
+<script th:src="@{/resources/front/js/vendor/jquery-3.5.0.min.js}"></script>
+<script th:src="@{/resources/front/js/popper.min.js}"></script>
+<script th:src="@{/resources/front/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/front/js/isotope.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/resources/front/js/owl.carousel.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.odometer.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.countdown.min.js}"></script>
+<script th:src="@{/resources/front/js/jquery.appear.js}"></script>
+<script th:src="@{/resources/front/js/slick.min.js}"></script>
+<script th:src="@{/resources/front/js/ajax-form.js}"></script>
+<script th:src="@{/resources/front/js/wow.min.js}"></script>
+<script th:src="@{/resources/front/js/aos.js}"></script>
+<script th:src="@{/resources/front/js/plugins.js}"></script>
+<script th:src="@{/resources/front/js/main.js}"></script>
+</body>
+</html>
